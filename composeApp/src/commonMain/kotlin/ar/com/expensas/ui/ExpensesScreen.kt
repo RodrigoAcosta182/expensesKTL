@@ -1,7 +1,9 @@
 package ar.com.expensas.ui
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 
@@ -13,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -20,15 +23,19 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ar.com.expensas.getColorsTheme
+import ar.com.expensas.model.Expense
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -37,8 +44,7 @@ fun ExpensesScreen() {
     LazyColumn(
         modifier = Modifier.fillMaxSize(), contentPadding = PaddingValues(
             16.dp
-        ),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        ), verticalArrangement = Arrangement.spacedBy(8.dp)
 
     ) {
         stickyHeader {
@@ -68,9 +74,7 @@ fun ExpensesTotalHeader(total: Double) {
                 color = colors.white
             )
             Text(
-                modifier = Modifier.align(Alignment.CenterEnd),
-                text = "USD",
-                color = colors.gray
+                modifier = Modifier.align(Alignment.CenterEnd), text = "USD", color = colors.gray
             )
         }
     }
@@ -96,6 +100,57 @@ fun AllExpensesHeader() {
     }
 }
 
-fun onclickButton() {
+@Composable
+fun ExpensesItem(expense: Expense, onExpenseClick: (expense: Expense) -> Unit) {
+    val colors = getColorsTheme()
+    Card(
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 2.dp)
+            .clickable { onExpenseClick(expense) },
+        backgroundColor = colors.colorExpenseItem,
+        shape = RoundedCornerShape(30)
+    ) {
+        Row(
+            modifier = Modifier.padding(horizontal = 8.dp, vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Surface(
+                modifier = Modifier.size(50.dp),
+                shape = RoundedCornerShape(35),
+                color = colors.purple
+            ) {
+                Image(
+                    modifier = Modifier.padding(10.dp),
+                    imageVector = expense.icon,
+                    colorFilter = ColorFilter.tint(colors.white),
+                    contentScale = ContentScale.Crop,
+                    contentDescription = "Imagen icono Expense Item"
+                )
 
+            }
+
+            Column(modifier = Modifier.weight(1f).padding(start = 8.dp)) {
+                Text(
+                    text = expense.category.name,
+                    fontWeight = FontWeight.ExtraBold,
+                    fontSize = 18.sp,
+                    color = colors.textColor
+                )
+                Text(
+                    text = expense.description,
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 15.sp,
+                    color = colors.gray
+                )
+            }
+            Text(
+                text = "$${expense.amount}",
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp,
+                color = colors.textColor
+            )
+        }
+    }
+}
+
+fun onclickButton() {
 }

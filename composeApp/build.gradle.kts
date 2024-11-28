@@ -44,6 +44,7 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
+            api(compose.materialIconsExtended)
             api(compose.foundation)
             api(compose.animation)
             api("moe.tlaster:precompose:$precompose_version")
