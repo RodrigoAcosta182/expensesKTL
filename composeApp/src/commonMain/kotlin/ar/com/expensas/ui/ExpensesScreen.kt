@@ -34,12 +34,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ar.com.expensas.data.ExpenseManager
 import ar.com.expensas.getColorsTheme
 import ar.com.expensas.model.Expense
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ExpensesScreen() {
+fun ExpensesScreen(onExpenseClick: (expense: Expense) -> Unit) {
     val colors = getColorsTheme()
     LazyColumn(
         modifier = Modifier.fillMaxSize(), contentPadding = PaddingValues(
@@ -53,11 +54,14 @@ fun ExpensesScreen() {
                 AllExpensesHeader()
             }
         }
-        items(emptyList<String>()) {
+        items(ExpenseManager.fakeExpenseList) { expense ->
+            ExpensesItem(expense = expense, onExpenseClick = onExpenseClick)
 
         }
     }
 }
+
+
 
 @Composable
 fun ExpensesTotalHeader(total: Double) {
