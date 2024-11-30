@@ -1,13 +1,13 @@
 package ar.com.expensas.presentation
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import ar.com.expensas.domain.ExpenseRepository
 import ar.com.expensas.model.Expense
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import moe.tlaster.precompose.viewmodel.ViewModel
+import moe.tlaster.precompose.viewmodel.viewModelScope
 
 data class ExpensesUiState(
     val expenses: List<Expense> = emptyList(),
@@ -18,7 +18,7 @@ class ExpensesViewModel(private val expenseRepository: ExpenseRepository) : View
 
     private val _uiState = MutableStateFlow(ExpensesUiState())
     val uiState = _uiState.asStateFlow()
-    private val allExpense = expenseRepository.getAllExpenses()
+    private val allExpenses = expenseRepository.getAllExpenses()
 
     init {
         getAllExpense()
@@ -26,7 +26,7 @@ class ExpensesViewModel(private val expenseRepository: ExpenseRepository) : View
 
     private fun updateState() {
         _uiState.update { state ->
-            state.copy(expenses = allExpense, total = allExpense.sumOf { it.amount })
+            state.copy(expenses = allExpenses, total = allExpenses.sumOf { it.amount })
         }
     }
 
@@ -58,8 +58,6 @@ class ExpensesViewModel(private val expenseRepository: ExpenseRepository) : View
     }
 
     fun getExpenseWithID(id: Long): Expense {
-        return allExpense.first { it.id == id }
+        return allExpenses.first { it.id == id }
     }
-
-
 }

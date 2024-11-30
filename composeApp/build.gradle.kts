@@ -2,7 +2,6 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
-val precompose_version = "1.6.2"
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
@@ -42,15 +41,14 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
-            implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
             api(compose.materialIconsExtended)
             api(compose.foundation)
             api(compose.animation)
-            api("moe.tlaster:precompose:$precompose_version")
-            api("moe.tlaster:precompose-molecule:$precompose_version")
-            api("moe.tlaster:precompose-viewmodel:$precompose_version")
-            api("moe.tlaster:precompose-koin:$precompose_version")
+            api(libs.precompose)
+            api(libs.precompose.molecule)
+            api(libs.precompose.viewmodel)
+            api(libs.precompose.koin)
         }
         iosMain.dependencies {
             // iOS dependencies
@@ -87,6 +85,8 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.lifecycle.viewmodel.android)
+    implementation(libs.androidx.material3.android)
     debugImplementation(compose.uiTooling)
 }
 
