@@ -1,19 +1,28 @@
 package ar.com.expensas
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
+import ar.com.expensas.data.ExpenseManager
+import ar.com.expensas.data.ExpenseRepoImpl
+import ar.com.expensas.presentation.ExpensesViewModel
 import ar.com.expensas.ui.ExpensesScreen
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import moe.tlaster.precompose.PreComposeApp
+import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
+import moe.tlaster.precompose.viewmodel.viewModel
+
 
 
 @Composable
-@Preview
 fun App() {
-    AppTheme {
-        ExpensesScreen(onExpenseClick = {})
+    PreComposeApp {
+        val viewModel = viewModel(modelClass = ExpensesViewModel::class) {
+            ExpensesViewModel(ExpenseRepoImpl(ExpenseManager))
+        }
+        val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+        AppTheme {
+            ExpensesScreen(
+                uiState = uiState,
+                onExpenseClick = {})
+        }
     }
+
 }

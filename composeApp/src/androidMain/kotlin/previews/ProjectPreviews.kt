@@ -9,6 +9,7 @@ import androidx.compose.ui.unit.dp
 import ar.com.expensas.data.ExpenseManager
 import ar.com.expensas.model.Expense
 import ar.com.expensas.model.ExpenseCategory
+import ar.com.expensas.presentation.ExpensesUiState
 import ar.com.expensas.ui.AllExpensesHeader
 import ar.com.expensas.ui.ExpensesItem
 import ar.com.expensas.ui.ExpensesScreen
@@ -49,5 +50,7 @@ fun ExpensesItemPreview() {
 @Preview(showBackground = true)
 @Composable
 fun ExpensesScreenPreview() {
-    ExpensesScreen(onExpenseClick={})
+    ExpensesScreen(
+        uiState = ExpensesUiState(expenses = ExpenseManager.fakeExpenseList),
+        onExpenseClick = {})
 }
