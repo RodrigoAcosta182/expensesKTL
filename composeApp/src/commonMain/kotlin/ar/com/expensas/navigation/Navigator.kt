@@ -7,8 +7,8 @@ import androidx.compose.ui.Modifier
 import ar.com.expensas.data.ExpenseManager
 import ar.com.expensas.data.ExpenseRepoImpl
 import ar.com.expensas.getColorsTheme
-import ar.com.expensas.model.Expense
 import ar.com.expensas.presentation.ExpensesViewModel
+import ar.com.expensas.ui.ExpensesDetailScreen
 import ar.com.expensas.ui.ExpensesScreen
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.navigation.NavHost
@@ -33,10 +33,21 @@ fun Navigator(navigator: Navigator) {
                 navigator.navigate("/addExpenses/${expense.id}")
             }
         }
-        scene(route = "/addExpense/{id}") { backStackEntry ->
+        scene(route = "/addExpenses/{id}?") { backStackEntry ->
             val idFromPath = backStackEntry.path<Long>("id")
-            val isAddExpense = idFromPath?.let { id -> viewModel.getExpenseWithID(id) }
-
+            val expenseToEditOrAdd = idFromPath?.let { id -> viewModel.getExpenseWithID(id) }
+            ExpensesDetailScreen(
+                expenseToEdit = expenseToEditOrAdd,
+                categoryList = viewModel.getCategories()
+            ) { expense ->
+                if (expenseToEditOrAdd == null) {
+                    viewModel.addExpense(expense)
+                } else {
+                    viewModel.editExpense(expense)
+                }
+                navigator.popBackStack()
+            }
         }
     }
+
 }

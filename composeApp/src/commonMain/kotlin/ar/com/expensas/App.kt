@@ -30,8 +30,8 @@ import moe.tlaster.precompose.navigation.rememberNavigator
 @Composable
 fun App() {
     PreComposeApp {
-        val colors = getColorsTheme()
         AppTheme {
+            val colors = getColorsTheme()
             val navigator = rememberNavigator()
             val titleTopBar = getTitleTopAppBar(navigator)
             val isEditOrAddExpenses = titleTopBar != TitleTopBarTypes.DASHBOARD.value
@@ -68,7 +68,7 @@ fun App() {
                     if (!isEditOrAddExpenses) {
                         FloatingActionButton(
                             modifier = Modifier.padding(8.dp),
-                            onClick = { navigator.navigate("addExpenses") },
+                            onClick = { navigator.navigate("/addExpenses") },
                             shape = RoundedCornerShape(50),
                             backgroundColor = colors.addIconColor,
                             contentColor = colors.white
@@ -93,7 +93,7 @@ fun App() {
 fun getTitleTopAppBar(navigator: Navigator): String {
     var titleTopBar = TitleTopBarTypes.DASHBOARD
     val isOnAddExpenses =
-        navigator.currentEntry.collectAsState(null).value?.route?.route.equals("/addExpenses/{id}")
+        navigator.currentEntry.collectAsState(null).value?.route?.route.equals("/addExpenses/{id}?")
     if (isOnAddExpenses) {
         titleTopBar = TitleTopBarTypes.ADD
     }

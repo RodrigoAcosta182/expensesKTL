@@ -2,6 +2,7 @@ package ar.com.expensas.presentation
 
 import ar.com.expensas.domain.ExpenseRepository
 import ar.com.expensas.model.Expense
+import ar.com.expensas.model.ExpenseCategory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -59,5 +60,9 @@ class ExpensesViewModel(private val expenseRepository: ExpenseRepository) : View
 
     fun getExpenseWithID(id: Long): Expense {
         return allExpenses.first { it.id == id }
+    }
+
+    fun getCategories() : List<ExpenseCategory>{
+        return expenseRepository.getCategories()
     }
 }

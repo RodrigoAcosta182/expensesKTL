@@ -21,7 +21,7 @@ fun AppTheme(content: @Composable () -> Unit) {
 }
 
 @Composable
-fun getColorsTheme(): DarkModeColors {
+fun getColorsTheme(): ModeColors {
     val isDarkMode = false
 
     val purple = Color(0xFF6A66FF)
@@ -35,7 +35,7 @@ fun getColorsTheme(): DarkModeColors {
     val addIconColor = if (isDarkMode) purple else Color.Black
     val colorArrowRound = if (isDarkMode) purple else Color.Gray.copy(alpha = .2f)
 
-    return DarkModeColors(
+    return ModeColors(
         purple = purple,
         colorExpenseItem = colorExpenseItem,
         backgroundColor = backgroundColor,
@@ -49,7 +49,7 @@ fun getColorsTheme(): DarkModeColors {
     )
 }
 
-data class DarkModeColors(
+data class ModeColors(
     val purple: Color,
     val colorExpenseItem: Color,
     val backgroundColor: Color,
@@ -59,5 +59,5 @@ data class DarkModeColors(
     val black: Color,
     val gray: Color,
     val white: Color,
-    val lightGray: Color
+    val lightGray: Color,
 )
